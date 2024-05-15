@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _zoomMin;
     [SerializeField] private float _zoomMax;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private Vector2 _maxPosition;
 
     private float _currentZoom;
     private float _targetZoom;
@@ -42,6 +43,7 @@ public class CameraController : MonoBehaviour
             float zoomFactor = _currentZoom / _zoomMax;
             if (zoomFactor <= 1) zoomFactor = 1;
             Vector3 desiredPosition = _referencePosition + moveDirection * (_moveSpeed * Time.deltaTime * zoomFactor);
+
             _referencePosition = desiredPosition;
         }
         _previousMousePosition = Input.mousePosition;

@@ -8,6 +8,7 @@ namespace Data.Cards
         Human = 0,
         Resource = 1,
         Usable = 2,
+        Money = 3
     }
     
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Card", order = 1)]
@@ -19,6 +20,6 @@ namespace Data.Cards
         [field:SerializeField] public string Description { get; private set; }
         [field:SerializeField] public int Value { get; private set; }
         [field:SerializeField] public bool IsNotSellable { get; private set; }
-        [field:SerializeField] public List<CardData> Cards { get; private set; }
+        [field:SerializeField] public bool IsStackable { get; private set; }
     }
 }

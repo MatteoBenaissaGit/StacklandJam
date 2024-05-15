@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98373e6b8628ab4983e16d37b00aea9, type: 3}
-  m_Name: Pizzaguy
+  m_Name: Pate
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Pizzaguy
-  <Type>k__BackingField: 0
-  <Sprite>k__BackingField: {fileID: 21300000, guid: b8fb50f4ba888b44daa43bfa8bb84d6f, type: 3}
-  <Description>k__BackingField: The man who is making the pizzas
+  <Name>k__BackingField: Pate
+  <Type>k__BackingField: 1
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 6f2ca5577f1ee154bbc6f2bae58cbcb7, type: 3}
+  <Description>k__BackingField: The pate.
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
   <IsStackable>k__BackingField: 0

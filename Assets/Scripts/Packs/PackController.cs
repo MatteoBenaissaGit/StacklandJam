@@ -29,10 +29,11 @@ namespace Packs
             IsInitialized = true;
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (IsHeld)
             {
+                base.Update();
                 _currentHeldTime += Time.deltaTime;
             }
         }

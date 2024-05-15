@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cards;
 using DG.Tweening;
 using TMPro;
@@ -20,16 +21,21 @@ namespace Draggable
         [field:SerializeField] protected Transform Shadow { get; set; }
         [field:SerializeField] protected Vector2 ShadowDirection { get; set; } = new Vector2(-1f, -1f);
         [field:SerializeField] protected float ShadowBaseDistance { get; set; } = 0.1f;
-        [field:SerializeField] protected float ShadowHoverDistance { get; set; } = 0.3f;
-        [field:SerializeField] protected float ShadowHeldDistance { get; set; } = 1f;
+        [field:SerializeField] protected float ShadowHoverDistance { get; set; } = 0.25f;
+        [field:SerializeField] protected float ShadowHeldDistance { get; set; } = 0.5f;
 
         protected Vector3 LastPlayZonePosition { get; set; }
         
         private Dictionary<SpriteRenderer, int> _spriteToBaseOrder = new Dictionary<SpriteRenderer, int>();
         private Dictionary<TextMeshPro, int> _textsBaseOrder = new Dictionary<TextMeshPro, int>();
         
+        private Vector3 _previousPosition;
+        private Vector3 _baseLocalRotation;
+        
         private void Awake()
         {
+            _baseLocalRotation = transform.localRotation.eulerAngles;
+            
             foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
             {
                 _spriteToBaseOrder.Add(sprite,sprite.sortingOrder);
@@ -38,6 +44,12 @@ namespace Draggable
             {
                 _textsBaseOrder.Add(text,text.sortingOrder);
             }
+        }
+
+
+        protected virtual void Update()
+        {
+            //TODO rotation ?
         }
 
         public void Initialize(Vector3 position)
@@ -55,21 +67,26 @@ namespace Draggable
         {
             foreach(KeyValuePair<SpriteRenderer, int> pair in _spriteToBaseOrder)
             {
-                pair.Key.sortingOrder = pair.Value + (StackOrder) + orderOffset;
+                pair.Key.sortingOrder = pair.Value + (StackOrder * 5) + orderOffset;
             }
             foreach(KeyValuePair<TextMeshPro, int> pair in _textsBaseOrder)
             {
-                pair.Key.sortingOrder = pair.Value + (StackOrder) + orderOffset;
+                pair.Key.sortingOrder = pair.Value + (StackOrder * 5) + orderOffset;
             }
         }
 
-        protected void SetShadow(float distance)
+        protected virtual void SetShadow(float distance)
         {
-            Vector3 direction = new Vector3(ShadowDirection.x, 0, ShadowDirection.y);
+            Vector3 direction = new Vector3(ShadowDirection.x, ShadowDirection.y, 0);
             Vector3 desiredPosition = direction * distance;
 
             Shadow.transform.DOKill();
             Shadow.transform.DOLocalMove(desiredPosition, 0.1f);
+        }
+
+        public virtual void SetHovered(bool isHovered)
+        {
+            SetShadow(isHovered ? ShadowHoverDistance : IsHeld ? ShadowHeldDistance : ShadowBaseDistance);
         }
     }
 }

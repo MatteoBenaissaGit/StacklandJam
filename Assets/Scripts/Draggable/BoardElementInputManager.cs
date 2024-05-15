@@ -12,6 +12,7 @@ namespace Cards
 
         private void Update()
         {
+            CheckForHoverElement();
             CheckForElementOnClick();
             ManageHeldElement();
         }
@@ -36,6 +37,38 @@ namespace Cards
                     break;
                 }
             }
+        }
+
+        private BoardDraggable _currentElementHovered;
+        private void CheckForHoverElement()
+        {
+            BoardDraggable hoveredElement = null;
+            
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts);
+            for (int i = 0; i < hits; i++)
+            {
+                if (_cardRaycasts[i].collider.TryGetComponent(out BoardDraggable draggable) && draggable.IsHeld == false && draggable.IsInitialized)
+                {
+                    if (draggable == _currentElementHovered && _currentElementHovered != null)
+                    {
+                        return;
+                    }
+                    hoveredElement = draggable;
+                }
+            }
+            
+            
+            if (_currentElementHovered != null) 
+            { 
+                _currentElementHovered.SetHovered(false);
+            }
+            _currentElementHovered = hoveredElement;
+            if (_currentElementHovered != null) 
+            { 
+                _currentElementHovered.SetHovered(true);
+            }
+            
         }
         
         private void ManageHeldElement()

@@ -17,9 +17,9 @@ namespace Cards
         public CardController Parent { get; private set; }
         public CardController Child { get; private set; }
 
-        [SerializeField] private SpriteRenderer _iconSpriteRenderer;
         [SerializeField] private SpriteRenderer _cardSpriteRenderer;
-        [SerializeField] private TextMeshPro _cardNameText;
+        [SerializeField] private Transform _cardValueTransform;
+        [SerializeField] private TextMeshPro _cardValue;
         [SerializeField] private Transform _cardFront;
         [SerializeField] private Transform _cardBack;
 
@@ -29,16 +29,10 @@ namespace Cards
         public void Initialize(CardData data, Vector3 position)
         {
             Data = data;
-            
-            _iconSpriteRenderer.sprite = Data.Sprite;
-            _cardSpriteRenderer.color = Data.Type switch
-            {
-                CardType.Human => new Color(1f, 0.93f, 0.55f),
-                CardType.Resource => new Color(0.42f, 0.42f, 0.42f),
-                CardType.Usable => new Color(1f, 0.44f, 0.43f),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            _cardNameText.text = Data.Name;
+
+            _cardSpriteRenderer.sprite = Data.Sprite;
+            _cardValue.text = Data.Value.ToString();
+            _cardValueTransform.gameObject.SetActive(Data.IsNotSellable);
             
             base.Initialize(position);
 
@@ -74,18 +68,26 @@ namespace Cards
             await Task.Delay(300);
 
             SetSpritesSortingOrder(0);
+
+            await Task.Delay(200);
+
             IsInitialized = true;
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (IsInitialized == false)
             {
                 return;
             }
+
+            if (IsHeld)
+            {
+                base.Update();
+            }
             
-            HandleParent();
             CheckCardCollision();
+            HandleParent();
         }
 
         private RaycastHit[] _collisionHits = new RaycastHit[32];
@@ -118,7 +120,7 @@ namespace Cards
             _wasColliding = isColliding;
             
             transform.position += _collisionSpeed;
-            _collisionSpeed = Vector3.Lerp(_collisionSpeed, Vector3.zero, 0.1f);
+            _collisionSpeed = Vector3.Lerp(_collisionSpeed, Vector3.zero, 0.2f * 60f * Time.deltaTime);
         }
 
         private bool IsCardAChild(CardController card)
@@ -156,6 +158,7 @@ namespace Cards
             }
 
             UpdateStackOrderOfChildren();
+            SetSpritesSortingOrder();
         }
 
         public void UpdateStackOrderOfChildren()
@@ -164,8 +167,11 @@ namespace Cards
             {
                 return;
             }
+            
             Child.StackOrder = StackOrder + 1;
+            Child.SetSpritesSortingOrder();
             Child.UpdateStackOrderOfChildren();
+            
             SetSpritesSortingOrder();
         }
 
@@ -177,6 +183,7 @@ namespace Cards
             }
             Vector3 targetPosition = Parent.transform.position - Parent.transform.up * _parentingDistance;
             transform.position = targetPosition;
+            transform.localRotation = Parent.transform.localRotation;
         }
 
         public override void GetHeld(bool isHeld)
@@ -227,6 +234,13 @@ namespace Cards
             SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
             
             Child?.SetHeldAsChild(isHeld);
+        }
+
+        public override void SetHovered(bool isHovered)
+        {
+            base.SetHovered(isHovered);
+            
+            GameManager.Instance.UI.SetDescription(isHovered, Data.Description);
         }
 
 #if UNITY_EDITOR
