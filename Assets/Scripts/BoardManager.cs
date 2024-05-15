@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cards;
 using Data.Cards;
+using DG.Tweening;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -11,13 +12,15 @@ public class BoardManager : MonoBehaviour
     [Space]
     [SerializeField] private PlayZoneController _playZone;
 
-    public void CreateCard(CardData data, Vector3 position)
+    public void CreateCard(CardData data, Vector3 startPosition, Vector3 endPosition)
     {
         CardController card = Instantiate(_cardPrefab, transform);
-        position.y = _playZone.transform.position.y + 0.1f;
-        card.Initialize(data, position);
+        startPosition.y = _playZone.transform.position.y + 0.1f;
+        card.Initialize(data, startPosition);
         Cards.Add(card);
-        card.gameObject.name = position.ToString();
+        card.gameObject.name = startPosition.ToString();
+        
+        card.transform.DOMove(endPosition, 0.5f).SetEase(Ease.OutQuint);
     }
     
     public void RemoveCard(CardController card)

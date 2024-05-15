@@ -1,51 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Data.Cards;
 using DG.Tweening;
+using Draggable;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 
 namespace Cards
 {
-    public class CardController : MonoBehaviour
+    public class CardController : BoardDraggable
     {
         public CardData Data { get; private set; }
         public CardController Parent { get; private set; }
         public CardController Child { get; private set; }
-        public int StackOrder { get; private set; }
-        public bool IsHeld { get; set; }
 
         [SerializeField] private SpriteRenderer _iconSpriteRenderer;
         [SerializeField] private SpriteRenderer _cardSpriteRenderer;
         [SerializeField] private TextMeshPro _cardNameText;
-        
-        [Space(10)]
-        [SerializeField] private Transform _shadow;
-        [SerializeField] private Vector2 _shadowDirection = new Vector2(-1f, -1f);
-        [SerializeField] private float _shadowBaseDistance = 0.1f;
-        [SerializeField] private float _shadowHoverDistance = 0.3f;
-        [SerializeField] private float _shadowHeldDistance = 1f;
-        
+        [SerializeField] private Transform _cardFront;
+        [SerializeField] private Transform _cardBack;
+
         [Space(10)]
         [SerializeField] private float _parentingDistance = 1f;
-        
-        [Space(10)]
-        [SerializeField] private Vector3 _collisionRaycastSize = Vector3.one;
-
-        private Vector3 _lastPlayZonePosition;
-        private Dictionary<SpriteRenderer, int> _spriteToBaseOrder = new Dictionary<SpriteRenderer, int>();
-        private int _textBaseOrder;
-
-        private void Awake()
-        {
-            foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
-            {
-                _spriteToBaseOrder.Add(sprite,sprite.sortingOrder);
-            }
-            _textBaseOrder = _cardNameText.sortingOrder;
-        }
 
         public void Initialize(CardData data, Vector3 position)
         {
@@ -60,21 +39,58 @@ namespace Cards
                 _ => throw new ArgumentOutOfRangeException()
             };
             _cardNameText.text = Data.Name;
-
-            _lastPlayZonePosition = position;
-            transform.position = position;
             
-            SetShadow(_shadowBaseDistance);
+            base.Initialize(position);
+
+            SpawnTween();
+        }
+
+        private async void SpawnTween()
+        {
+            SetSpritesSortingOrder(100);
+            
+            _cardFront.gameObject.SetActive(false);
+            
+            _cardBack.gameObject.SetActive(true);
+            _cardBack.transform.localScale = new Vector3(1, 1, 1);
+            _cardBack.transform.DOKill();
+            _cardBack.transform.DOScaleY(0, 0.1f).SetEase(Ease.Linear);
+
+            transform.DOKill();
+            transform.localScale = Vector3.one * 0.5f;
+            transform.DOScale(Vector3.one, 0.15f);
+            
+            await Task.Delay(100);
+            
+            _cardBack.gameObject.SetActive(false);
+            
+            _cardFront.gameObject.SetActive(true);
+            _cardFront.transform.localScale = new Vector3(1, 0, 1);
+            _cardFront.transform.DOKill();
+            _cardFront.transform.DOScaleY(1, 0.3f).SetEase(Ease.OutBounce);
+
+            transform.DOShakeRotation(0.5f, new Vector3(0, 0, 1) * 40);
+                
+            await Task.Delay(300);
+
+            SetSpritesSortingOrder(0);
+            IsInitialized = true;
         }
 
         private void Update()
         {
+            if (IsInitialized == false)
+            {
+                return;
+            }
+            
             HandleParent();
             CheckCardCollision();
         }
 
-        private RaycastHit[] _collisionHits = new RaycastHit[16];
+        private RaycastHit[] _collisionHits = new RaycastHit[32];
         private Vector3 _collisionSpeed;
+        private bool _wasColliding;
         private void CheckCardCollision()
         {
             if (IsHeld || Parent != null)
@@ -83,10 +99,10 @@ namespace Cards
             }
 
             bool isColliding = false;
-            int hits = Physics.BoxCastNonAlloc(transform.position, _collisionRaycastSize / 2, Vector3.up, _collisionHits);
+            int hits = Physics.BoxCastNonAlloc(transform.position, CollisionRaycastSize / 2, Vector3.up, _collisionHits);
             for (int i = 0; i < hits; i++)
             {
-                if (_collisionHits[i].collider.TryGetComponent(out CardController card) && card != this && card.IsHeld == false && card != Child)
+                if (_collisionHits[i].collider.TryGetComponent(out CardController card) && card != this && card.IsHeld == false && IsCardAChild(Child) == false)
                 {
                     Vector3 direction = (transform.position - card.transform.position).normalized;
                     _collisionSpeed = direction * (4f * Time.deltaTime);
@@ -95,18 +111,32 @@ namespace Cards
                 }
             }
 
-            if (isColliding == false)
+            if (isColliding != _wasColliding)
             {
                 SetSpritesSortingOrder();
             }
+            _wasColliding = isColliding;
             
             transform.position += _collisionSpeed;
             _collisionSpeed = Vector3.Lerp(_collisionSpeed, Vector3.zero, 0.1f);
         }
 
+        private bool IsCardAChild(CardController card)
+        {
+            if (Child == null)
+            {
+                return false;
+            }
+            if (Child == card)
+            {
+                return true;
+            }
+            return Child.IsCardAChild(card);
+        }
+
         public void SetParent(CardController parentCard)
         {
-            if (parentCard != null && parentCard.Parent == this)
+            if (parentCard != null && (parentCard.Parent == this || parentCard.Child != null))
             {
                 return;
             }
@@ -116,6 +146,7 @@ namespace Cards
                 Parent.Child = null;
                 StackOrder = 0;
             }
+            
             Parent = parentCard;
             
             if (Parent != null)
@@ -123,7 +154,18 @@ namespace Cards
                 Parent.Child = this;
                 StackOrder = Parent.StackOrder + 1;
             }
-            
+
+            UpdateStackOrderOfChildren();
+        }
+
+        public void UpdateStackOrderOfChildren()
+        {
+            if (Child == null)
+            {
+                return;
+            }
+            Child.StackOrder = StackOrder + 1;
+            Child.UpdateStackOrderOfChildren();
             SetSpritesSortingOrder();
         }
 
@@ -137,7 +179,7 @@ namespace Cards
             transform.position = targetPosition;
         }
 
-        public void GetHeld(bool isHeld)
+        public override void GetHeld(bool isHeld)
         {
             transform.DOKill();
             
@@ -148,8 +190,8 @@ namespace Cards
             IsHeld = isHeld;
             
             SetParent(isHeld ? null : Parent);
-            SetShadow(isHeld ? _shadowHeldDistance : _shadowBaseDistance);
-
+            SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
+            
             SetSpritesSortingOrder(isHeld ? 10 : 0);
             
             Child?.SetHeldAsChild(isHeld);
@@ -163,12 +205,17 @@ namespace Cards
                 {
                     if (_collisionHits[i].collider.TryGetComponent(out PlayZoneController playZone))
                     {
-                        _lastPlayZonePosition = _collisionHits[i].point;
+                        LastPlayZonePosition = _collisionHits[i].point;
                         break;
                     }
                 }
-                transform.DOMove(_lastPlayZonePosition, 0.2f);
+                transform.DOMove(LastPlayZonePosition, 0.2f);
             }
+        }
+
+        public override void CardUnderOnDrop(CardController cardUnder)
+        {
+            SetParent(cardUnder);
         }
 
         private void SetHeldAsChild(bool isHeld)
@@ -177,34 +224,17 @@ namespace Cards
             
             SetSpritesSortingOrder(isHeld ? 10 : 0);
 
-            SetShadow(isHeld ? _shadowHeldDistance : _shadowBaseDistance);
+            SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
             
             Child?.SetHeldAsChild(isHeld);
         }
 
-        private void SetSpritesSortingOrder(int orderOffset = 0)
-        {
-            foreach(KeyValuePair<SpriteRenderer, int> pair in _spriteToBaseOrder)
-            {
-                pair.Key.sortingOrder = pair.Value + StackOrder + orderOffset;
-            }
-            _cardNameText.sortingOrder = _textBaseOrder + StackOrder + orderOffset;
-        }
-
-        private void SetShadow(float distance)
-        {
-            Vector3 desiredPosition = _shadowDirection * distance;
-            
-            _shadow.transform.DOKill();
-            _shadow.transform.DOLocalMove(desiredPosition, 0.1f);
-        }
-        
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position, _collisionRaycastSize);
+            Gizmos.DrawWireCube(transform.position, CollisionRaycastSize);
         }
 
 #endif
