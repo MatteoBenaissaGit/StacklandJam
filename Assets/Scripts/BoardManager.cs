@@ -14,11 +14,10 @@ public class BoardManager : MonoBehaviour
     public void CreateCard(CardData data, Vector3 position)
     {
         CardController card = Instantiate(_cardPrefab, transform);
+        position.y = _playZone.transform.position.y + 0.1f;
         card.Initialize(data, position);
         Cards.Add(card);
         card.gameObject.name = position.ToString();
-
-        //TODO check position on play zone ?
     }
     
     public void RemoveCard(CardController card)
