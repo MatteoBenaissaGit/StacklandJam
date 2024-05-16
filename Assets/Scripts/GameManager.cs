@@ -114,7 +114,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     public void KillClient(Client client)
     {
         CurrentClients.Remove(client);
-        client.DestroyClient();
+        client.DestroyClient(true);
     }
 
     private void ManageClientSpawn()

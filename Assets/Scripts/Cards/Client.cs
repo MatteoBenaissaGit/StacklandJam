@@ -14,6 +14,8 @@ namespace Cards
 
         [SerializeField] private SpriteRenderer _highlight;
         [SerializeField] private GameObject _fillGauge;
+        [SerializeField] private ParticleSystem _angryParticle;
+        [SerializeField] private ParticleSystem _loveParticle;
         
         private RaycastHit[] _raycastHits = new RaycastHit[16];
 
@@ -111,7 +113,7 @@ namespace Cards
             GetPizza(card);
         }
 
-        public void DestroyClient()
+        public void DestroyClient(bool isAngry = false)
         {
             if (GameManager.Instance.BoardElementInput.CurrentHeldElement == this)
             {
@@ -119,6 +121,17 @@ namespace Cards
             }
             
             IsInitialized = false;
+
+            if (isAngry)
+            {
+                _angryParticle.transform.parent = null;
+                _angryParticle.Play();
+            }
+            else
+            {
+                _loveParticle.transform.parent = null;
+                _loveParticle.Play();
+            }
             
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(() =>
             {
