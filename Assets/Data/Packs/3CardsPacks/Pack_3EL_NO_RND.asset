@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7693abad1bad4faab34b284f20986720, type: 3}
-  m_Name: Pack_1EL_1HU_1MO
+  m_Name: Pack_3EL_NO_RND
   m_EditorClassIdentifier: 
   <NumberOfCardsUsable>k__BackingField: 0
-  <NumberOfCardsElements>k__BackingField: 1
-  <NumberOfCardsHuman>k__BackingField: 1
-  <NumberOfCardsMoney>k__BackingField: 1
+  <NumberOfCardsElements>k__BackingField: 0
+  <NumberOfCardsHuman>k__BackingField: 0
+  <NumberOfCardsMoney>k__BackingField: 0
   <UsableCards>k__BackingField:
   - {fileID: 11400000, guid: fd53249a7a254534da9453016dd677f7, type: 2}
   - {fileID: 11400000, guid: 6a7492941c6f84449acd3a1b20adcb98, type: 2}
@@ -25,6 +25,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6c80954f923da14a94af5372e2af067, type: 2}
   <HumanCards>k__BackingField:
   - {fileID: 11400000, guid: d0f2bf4481e806049ab7e6797d2f6160, type: 2}
-  <MoneyCards>k__BackingField:
-  - {fileID: 11400000, guid: 489ddac34b4695e4ab84444097a5d148, type: 2}
-  <CustomAddedCards>k__BackingField: []
+  <MoneyCards>k__BackingField: []
+  <CustomAddedCards>k__BackingField:
+  - {fileID: 11400000, guid: ffcfa144a39de074f9773c80ed53bb9c, type: 2}
+  - {fileID: 11400000, guid: bbfaa1f88f8ad7b4f921daece19a41c1, type: 2}
+  - {fileID: 11400000, guid: b6c80954f923da14a94af5372e2af067, type: 2}
