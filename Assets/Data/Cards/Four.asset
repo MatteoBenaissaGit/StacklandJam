@@ -15,7 +15,8 @@ MonoBehaviour:
   <Name>k__BackingField: Four
   <Type>k__BackingField: 2
   <Sprite>k__BackingField: {fileID: 21300000, guid: f73352be00e930d4f8f517b669392b69, type: 3}
-  <Description>k__BackingField: Utilise le four pour cuire une pizza.
+  <Description>k__BackingField: "Derni\xE8re \xE9tape de la pr\xE9paration d'une
+    bonne Pizza."
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
   <IsStackable>k__BackingField: 0
@@ -25,4 +26,5 @@ MonoBehaviour:
   <CanBePutOnWorkSpace>k__BackingField: 0
   <IsPizza>k__BackingField: 0
   <IsCold>k__BackingField: 0
+  <IsFull>k__BackingField: 0
   <TimeToUse>k__BackingField: 5

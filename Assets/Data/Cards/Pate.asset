@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Pate
   <Type>k__BackingField: 1
   <Sprite>k__BackingField: {fileID: 21300000, guid: 6f2ca5577f1ee154bbc6f2bae58cbcb7, type: 3}
-  <Description>k__BackingField: Utilise la pate comme base pour la pizza.
+  <Description>k__BackingField: "Sert de base \xE0 la cr\xE9ation d'une Pizza."
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
   <IsStackable>k__BackingField: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   <Name>k__BackingField: Tomate
   <Type>k__BackingField: 1
   <Sprite>k__BackingField: {fileID: 21300000, guid: f0d3fbde75eb04a45a4f74cf10f65d5f, type: 3}
-  <Description>k__BackingField: Met la tomate dans ta pizza pour donner du gout.
+  <Description>k__BackingField: "Sert \xE0 ajouter du gout \xE0 une Pizza."
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
   <IsStackable>k__BackingField: 0
