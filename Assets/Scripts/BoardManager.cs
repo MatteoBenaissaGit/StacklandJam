@@ -27,6 +27,7 @@ public class BoardManager : MonoBehaviour
     public void RemoveCard(CardController card)
     {
         Cards.Remove(card);
+
         card.transform.SetParent(null);
         card.IsInitialized = false;
         card.transform.DOKill();

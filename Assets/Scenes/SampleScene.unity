@@ -308,6 +308,10 @@ MonoBehaviour:
   <Board>k__BackingField: {fileID: 964046909}
   <UI>k__BackingField: {fileID: 1030720182}
   <BoardElementInput>k__BackingField: {fileID: 964046910}
+  <PizzaColdNotFull>k__BackingField: {fileID: 0}
+  <PizzaCold>k__BackingField: {fileID: 11400000, guid: 4157797b6b2f9e34fb8d65ea4f8c4ada, type: 2}
+  <PizzaHotNotFull>k__BackingField: {fileID: 0}
+  <PizzaHot>k__BackingField: {fileID: 11400000, guid: da842c4221ce13c41b152cfd28b41306, type: 2}
 --- !u!4 &227105288
 Transform:
   m_ObjectHideFlags: 0
@@ -1252,6 +1256,14 @@ PrefabInstance:
       propertyPath: _packData
       value: 
       objectReference: {fileID: 11400000, guid: f5a8be19fdb0b2d48b9508f2cb1043af, type: 2}
+    - target: {fileID: 4412085783213756131, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
+      propertyPath: _packDatas.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412085783213756131, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
+      propertyPath: _packDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f5a8be19fdb0b2d48b9508f2cb1043af, type: 2}
     - target: {fileID: 6023175726864841452, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1631,6 +1643,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pack
       objectReference: {fileID: 0}
+    - target: {fileID: 4412085783213756131, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
+      propertyPath: _packDatas.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412085783213756131, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
+      propertyPath: _packDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 839929ae5795b89459d4569abbd9b65e, type: 2}
     - target: {fileID: 6023175726864841452, guid: 227c8798d6e3021479363ab74edc423d, type: 3}
       propertyPath: m_RootOrder
       value: -1

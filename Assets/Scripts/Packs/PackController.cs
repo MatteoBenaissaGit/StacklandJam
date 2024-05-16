@@ -11,7 +11,7 @@ namespace Packs
 {
     public class PackController : BoardDraggable
     {
-        [SerializeField] private PackData _packData;
+        [SerializeField] private List<PackData> _packDatas = new List<PackData>();
         [SerializeField] private Transform _reflect;
 
         private Vector3 _baseReflectPosition;
@@ -19,14 +19,19 @@ namespace Packs
         List<CardData> _packContent = new List<CardData>();
 
         private float _currentHeldTime;
+        private PackData _packData;
         
         private void Start()
         {
+            _packData = _packDatas[UnityEngine.Random.Range(0, _packDatas.Count)];
+            
             _baseReflectPosition = _reflect.localPosition;
-            _packContentIndex = _packData.NumberOfCards - 1;
+            _packContentIndex = _packData.NumberOfCardsTotal - 1;
             _packContent = _packData.GetRandomCards();
 
             IsInitialized = true;
+            
+            _reflect.gameObject.SetActive(false);
         }
 
         protected override void Update()
@@ -45,7 +50,7 @@ namespace Packs
                 return;
             }
             
-            float angle = (360f / (_packData.NumberOfCards)) * (_packContentIndex);
+            float angle = (360f / (_packData.NumberOfCardsTotal)) * (_packContentIndex);
             float angleInRadians = angle * Mathf.Deg2Rad;
             float newX = 4f * Mathf.Cos(angleInRadians);
             float newY = 4f * Mathf.Sin(angleInRadians);
@@ -64,9 +69,12 @@ namespace Packs
 
         public void ReflectEffect()
         {
+            _reflect.gameObject.SetActive(true);
+            
             _reflect.DOComplete();
             _reflect.transform.localPosition = _baseReflectPosition;
-            _reflect.transform.DOLocalMoveY(_baseReflectPosition.y + 16f, 0.25f).SetEase(Ease.InOutSine);
+            _reflect.transform.DOLocalMoveY(_baseReflectPosition.y + 16f, 0.25f).SetEase(Ease.InOutSine)
+                .OnComplete(() => _reflect.gameObject.SetActive(false));
 
             transform.DOComplete();
             transform.DOPunchScale(Vector3.one * 0.1f, 0.25f);

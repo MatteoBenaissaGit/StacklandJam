@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7693abad1bad4faab34b284f20986720, type: 3}
   m_Name: PackPiece
   m_EditorClassIdentifier: 
-  <NumberOfCards>k__BackingField: 5
-  <PossibleCards>k__BackingField:
+  <NumberOfCardsUsable>k__BackingField: 0
+  <NumberOfCardsElements>k__BackingField: 0
+  <NumberOfCardsHuman>k__BackingField: 0
+  <NumberOfCardsMoney>k__BackingField: 4
+  <UsableCards>k__BackingField: []
+  <ElementsCards>k__BackingField: []
+  <HumanCards>k__BackingField: []
+  <MoneyCards>k__BackingField:
   - {fileID: 11400000, guid: 489ddac34b4695e4ab84444097a5d148, type: 2}

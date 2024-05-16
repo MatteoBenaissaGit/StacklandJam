@@ -358,7 +358,10 @@ MonoBehaviour:
   <ShadowBaseDistance>k__BackingField: 0.1
   <ShadowHoverDistance>k__BackingField: 0.25
   <ShadowHeldDistance>k__BackingField: 0.6
-  _packData: {fileID: 11400000, guid: 4aed891ad8da1f041a69ead84fe06585, type: 2}
+  _packDatas:
+  - {fileID: 11400000, guid: 4aed891ad8da1f041a69ead84fe06585, type: 2}
+  - {fileID: 11400000, guid: 2b6c678c31183a0498b4cb9f2e74cbb8, type: 2}
+  - {fileID: 11400000, guid: 10f6206da4e0eec4d9ea041da95cc509, type: 2}
   _reflect: {fileID: 9010978513337905267}
 --- !u!65 &2350190536071875122
 BoxCollider:

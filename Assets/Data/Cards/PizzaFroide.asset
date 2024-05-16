@@ -23,3 +23,6 @@ MonoBehaviour:
   <CanBePutInFurnace>k__BackingField: 1
   <IsWorkSpace>k__BackingField: 0
   <CanBePutOnWorkSpace>k__BackingField: 0
+  <IsPizza>k__BackingField: 1
+  <IsCold>k__BackingField: 1
+  <TimeToUse>k__BackingField: 0

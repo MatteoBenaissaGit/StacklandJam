@@ -21,12 +21,20 @@ namespace Cards
         [SerializeField] private Transform _cardFront;
         [SerializeField] private Transform _cardBack;
         [SerializeField] private SpriteRenderer _highlight;
+        [Space(10)]
+        [SerializeField] private GameObject _useBar;
+        [SerializeField] private Transform _useBarFill;
 
         [Space(10)]
         [SerializeField] private float _parentingDistance = 1f;
 
+        private float _currentTimeToUse;
+        private bool _isUsing;
+        
         public void Initialize(CardData data, Vector3 position)
         {
+            ActivateUse(false, null, null);
+            
             Color highlightColor = _highlight.color;
             highlightColor.a = 0;
             _highlight.color = highlightColor;
@@ -86,7 +94,8 @@ namespace Cards
             {
                 base.Update();
             }
-            
+
+            ManageUsing();
             CheckCardCollision();
             HandleParent();
         }
@@ -157,6 +166,13 @@ namespace Cards
             {
                 Parent.Child = this;
                 StackOrder = Parent.StackOrder + 1;
+
+                CardController currentChild = this;
+                while (currentChild != null)
+                {
+                    currentChild.CheckForActivation();
+                    currentChild = currentChild.Child;
+                }
             }
 
             UpdateStackOrderOfChildren();
@@ -202,8 +218,11 @@ namespace Cards
             SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
             
             SetSpritesSortingOrder(isHeld ? 100 : 0);
-            
-            Child?.SetHeldAsChild(isHeld);
+
+            if (Child != null)
+            {
+                Child.SetHeldAsChild(isHeld);
+            }
 
             if (isHeld == false)
             {
@@ -265,7 +284,10 @@ namespace Cards
                 || (Data.IsFurnace && wantToBeChildCard.Data.CanBePutInFurnace == false)
                 || (Data.Type == CardType.Money && wantToBeChildCard.Data.Type != CardType.Money)
                 || Parent == wantToBeChildCard
-                || (wantToBeChildCard.Data.Type == CardType.Money && Data.Type != CardType.Money))
+                || (wantToBeChildCard.Data.Type == CardType.Money && Data.Type != CardType.Money)
+                || wantToBeChildCard.Data.IsPizza && wantToBeChildCard.Data.IsCold == false
+                || (wantToBeChildCard.Data.Type == CardType.Resource && Data.IsCold)
+                || (Data.IsPizza && wantToBeChildCard.Data.Type == CardType.Resource))
             {
                 return false;
             }
@@ -303,6 +325,109 @@ namespace Cards
         public void Highlight(bool doHighlight)
         {
             _highlight.DOFade(doHighlight ? 1 : 0 , 0.2f);
+        }
+
+        public List<CardController> GetParents()
+        {
+            List<CardController> parentList = new List<CardController>();
+
+            CardController currentParent = Parent;
+            while (currentParent != null)
+            {
+                parentList.Add(currentParent);
+                currentParent = currentParent.Parent;
+            }
+
+            return parentList;
+        }
+
+        public void CheckForActivation()
+        {
+            if (Data.Type != CardType.Human)
+            {
+                return;
+            }
+            
+            List<CardController> parents = GetParents();
+            if (parents.Count == 0)
+            {
+                return;
+            }
+
+            CardController rootCard = parents[^1];
+            if (rootCard.Data.Type == CardType.Usable)
+            {
+                parents.Remove(rootCard);
+                rootCard.ActivateUse(this, parents.ToArray());
+            }
+        }
+
+        public void ActivateUse(CardController cardHuman, params CardController[] elements)
+        {
+            _currentDoingElements = elements.ToList();
+            if (Data.IsFurnace)
+            {
+                if (elements[0].Data.IsPizza && elements[0].Data.IsCold)
+                {
+                    ActivateUse(true, GameManager.Instance.PizzaHot, cardHuman);
+                }
+            }
+            else if (Data.IsWorkSpace)
+            {
+                if (elements.Length >= 2)
+                {
+                    ActivateUse(true, GameManager.Instance.PizzaCold, cardHuman);
+                }
+                else if (elements.Length >= 1)
+                {
+                    //TODO pizza not done
+                    ActivateUse(true, GameManager.Instance.PizzaCold, cardHuman);
+                }
+            }
+        }
+
+        private CardData _currentDoingData;
+        private List<CardController> _currentDoingElements;
+        private CardController _currentDoingHuman;
+
+        private void ActivateUse(bool doActivate, CardData cardData, CardController cardHuman)
+        {
+            _useBar.SetActive(doActivate);
+            _isUsing = doActivate;
+
+            if (cardData == null || cardHuman == null)
+            {
+                return;
+            }
+
+            _currentDoingHuman = cardHuman;
+            
+            _currentTimeToUse = Data.TimeToUse;
+            _currentDoingData = cardData;
+            
+            _useBarFill.transform.localScale = new Vector3(0, 1, 1);
+        }
+        
+        private void ManageUsing()
+        {
+            if (_isUsing == false || IsHeld)
+            {
+                return;
+            }
+
+            _currentTimeToUse -= Time.deltaTime;
+            _useBarFill.transform.localScale = new Vector3(_currentTimeToUse / Data.TimeToUse, 1, 1);
+            
+            if (_currentTimeToUse <= 0)
+            {
+                _isUsing = false;
+                ActivateUse(false, null, null);
+                
+                _currentDoingElements.ForEach(x => GameManager.Instance.Board.RemoveCard(x));
+                _currentDoingHuman.SetParent(null);
+                
+                GameManager.Instance.Board.CreateCard(_currentDoingData, transform.position, transform.position - transform.up * 1f + transform.right * 2f);
+            }
         }
         
 #if UNITY_EDITOR

@@ -67,16 +67,29 @@ namespace Draggable
         {
             foreach(KeyValuePair<SpriteRenderer, int> pair in _spriteToBaseOrder)
             {
+                if (pair.Key == null)
+                {
+                    continue;
+                }
                 pair.Key.sortingOrder = pair.Value + (StackOrder * 5) + orderOffset;
             }
             foreach(KeyValuePair<TextMeshPro, int> pair in _textsBaseOrder)
             {
+                if (pair.Key == null)
+                {
+                    continue;
+                }
                 pair.Key.sortingOrder = pair.Value + (StackOrder * 5) + orderOffset;
             }
         }
 
         protected virtual void SetShadow(float distance)
         {
+            if (Shadow.transform == null)
+            {
+                return;
+            }
+            
             Vector3 direction = new Vector3(ShadowDirection.x, ShadowDirection.y, 0);
             Vector3 desiredPosition = direction * distance;
 

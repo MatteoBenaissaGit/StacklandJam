@@ -25,5 +25,9 @@ namespace Data.Cards
         [field:SerializeField] public bool CanBePutInFurnace { get; private set; }
         [field:SerializeField] public bool IsWorkSpace { get; private set; }
         [field:SerializeField] public bool CanBePutOnWorkSpace { get; private set; }
+        [field:SerializeField] public bool IsPizza { get; private set; }
+        [field:SerializeField] public bool IsCold { get; private set; }
+        [field:SerializeField] public bool IsFull { get; private set; }
+        [field:SerializeField] public float TimeToUse { get; private set; }
     }
 }
