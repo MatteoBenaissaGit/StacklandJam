@@ -141,6 +141,10 @@ namespace Cards
 
         public void Highlight(bool doShow)
         {
+            if (_highlight.gameObject == null)
+            {
+                return;
+            }
             _highlight.gameObject.SetActive(doShow);
         }
     }

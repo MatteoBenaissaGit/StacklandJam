@@ -428,7 +428,7 @@ namespace Cards
             }
 
             _currentTimeToUse -= Time.deltaTime;
-            _useBarFill.transform.localScale = new Vector3(_currentTimeToUse / Data.TimeToUse, 1, 1);
+            _useBarFill.transform.localScale = new Vector3(1 - (_currentTimeToUse / Data.TimeToUse), 1, 1);
             
             if (_currentTimeToUse <= 0)
             {

@@ -9,6 +9,7 @@ namespace Cards
         public BoardDraggable CurrentHeldElement { get; set; }
 
         [SerializeField] private Camera _camera;
+        [SerializeField] private LayerMask _layerToCheck;
 
         private void Update()
         {
@@ -27,7 +28,7 @@ namespace Cards
             
             //raycast toward camera to see if there is a card on mouse position
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts);
+            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts, 1000f, _layerToCheck);
             for (int i = 0; i < hits; i++)
             {
                 if (_cardRaycasts[i].collider.TryGetComponent(out BoardDraggable draggable) && draggable.IsHeld == false && draggable.IsInitialized)
@@ -50,7 +51,7 @@ namespace Cards
             BoardDraggable hoveredElement = null;
             
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts);
+            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts, 1000f, _layerToCheck);
             for (int i = 0; i < hits; i++)
             {
                 if (_cardRaycasts[i].collider.TryGetComponent(out BoardDraggable draggable) && draggable.IsHeld == false && draggable.IsInitialized)
@@ -84,7 +85,7 @@ namespace Cards
             }
             
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts);
+            int hits = Physics.RaycastNonAlloc(ray, _cardRaycasts, 1000f, _layerToCheck);
             Vector3 targetPosition = CurrentHeldElement.transform.position;
             for (int i = 0; i < hits; i++)
             {

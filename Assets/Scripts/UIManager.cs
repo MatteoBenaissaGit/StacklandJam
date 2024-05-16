@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     public void UpdateFillDay(float fillAmount)
     {
         _dayFillImage.fillAmount = 1 - fillAmount;
-        _dayAlertIcon.SetActive(fillAmount < 0.65f);
+        _dayAlertIcon.SetActive(fillAmount > 0.65f);
     }
     
     public void SetNewDay(int day)

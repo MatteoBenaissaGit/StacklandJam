@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Cards;
 using Data.Cards;
@@ -95,7 +96,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         CurrentClients.Add(client);
     }
 
-    public void ClientServed(Client client, int moneyGained)
+    public async void ClientServed(Client client, int moneyGained)
     {
         CurrentClients.Remove(client);
         client.DestroyClient();
@@ -108,6 +109,16 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         {
             offset = client.transform.right * (i + (moneyGained > 1 ? -1 : 0));
             Board.CreateCard(Money, client.transform.position, client.transform.position - client.transform.up * 2 + offset);
+        }
+
+        int numberOfElements = Board.Cards.Count(x => x.Data.Type == CardType.Resource);
+        int numberOfMoney = Board.Cards.Count(x => x.Data.Type == CardType.Money);
+        
+        if (numberOfElements <= 0 && _currentQuota < _quotaPerDay && numberOfMoney < Board.BoosterBuyer.CurrentNeededPrice)
+        {
+            await Task.Delay(2500);
+
+            GameOver();
         }
     }
 
@@ -141,6 +152,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         
         _doSpawnClient = false;
         _doDayTime = false;
+        
         Board.Cards.ForEach(x => x.IsInitialized = false);
         CurrentClients.ForEach(x => x.DestroyClient());
     }

@@ -17,7 +17,7 @@ namespace Cards
         [SerializeField] private SpriteRenderer _highlight;
         [SerializeField] private PackController _boosterPackPrefab;
 
-        private int _currentNeededPrice;
+        public int CurrentNeededPrice { get; private set; }
 
         private void Awake()
         {
@@ -25,8 +25,8 @@ namespace Cards
             color.a = 0;
             _highlight.color = color;
             
-            _currentNeededPrice = _boosterPrice;
-            _priceText.text = _currentNeededPrice.ToString();
+            CurrentNeededPrice = _boosterPrice;
+            _priceText.text = CurrentNeededPrice.ToString();
         }
 
         public void HoldCard(CardController card)
@@ -48,20 +48,22 @@ namespace Cards
             transform.DOPunchScale(Vector3.one * 0.2f, 0.3f).SetEase(Ease.OutElastic);
             transform.DOPunchRotation(new Vector3(0,10,0), 0.3f);
 
-            _currentNeededPrice -= cards.Count;
-            _priceText.text = _currentNeededPrice.ToString();
+            CurrentNeededPrice -= cards.Count;
+            _priceText.text = CurrentNeededPrice.ToString();
             cards.ForEach(x => GameManager.Instance.Board.RemoveCard(x));
             
-            if (_currentNeededPrice <= 0)
+            if (CurrentNeededPrice <= 0)
             {
+                _priceText.text = "0";
                 BuyBooster();
             }
         }
 
         private async void BuyBooster()
         {
-            _currentNeededPrice = _boosterPrice;
-            _priceText.text = _currentNeededPrice.ToString();
+            CurrentNeededPrice = _boosterPrice + CurrentNeededPrice;
+            
+            _priceText.text = CurrentNeededPrice.ToString();
 
             PackController pack = Instantiate(_boosterPackPrefab);
             pack.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -77,6 +79,11 @@ namespace Cards
             pack.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
 
             await Task.Delay(300);
+            
+            if (CurrentNeededPrice <= 0)
+            {
+                BuyBooster();
+            }
             
             pack.IsInitialized = true;
         }

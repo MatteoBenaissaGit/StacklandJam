@@ -12,6 +12,8 @@ public class BoardManager : MonoBehaviour
     [Space]
     [SerializeField] private PlayZoneController _playZone;
     [SerializeField] private BoosterBuy _boosterBuy;
+
+    public BoosterBuy BoosterBuyer => _boosterBuy;
     
     public void CreateCard(CardData data, Vector3 startPosition, Vector3 endPosition)
     {

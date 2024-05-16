@@ -355,8 +355,8 @@ MonoBehaviour:
   CollisionRaycastSize: {x: 1, y: 1, z: 1}
   <Shadow>k__BackingField: {fileID: 5870340347037049069}
   <ShadowDirection>k__BackingField: {x: -1, y: -1}
-  <ShadowBaseDistance>k__BackingField: 0.2
-  <ShadowHoverDistance>k__BackingField: 0.3
+  <ShadowBaseDistance>k__BackingField: 0.1
+  <ShadowHoverDistance>k__BackingField: 0.2
   <ShadowHeldDistance>k__BackingField: 0.6
   _packDatas:
   - {fileID: 11400000, guid: 4b3e786b82318d343a2660a8a2e259b0, type: 2}
