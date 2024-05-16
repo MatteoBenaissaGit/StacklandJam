@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cards;
 using Data.Cards;
+using MatteoBenaissaLibrary.AudioManager;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,6 +91,8 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
 
     private void AddClient()
     {
+        SoundManager.Instance.PlaySound(SoundEnum.NewClient);
+        
         Client client = Instantiate(_clientPrefab);
         client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,18));
         
@@ -116,7 +119,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         
         if (numberOfElements <= 0 && _currentQuota < _quotaPerDay && numberOfMoney < Board.BoosterBuyer.CurrentNeededPrice)
         {
-            await Task.Delay(2500);
+            await Task.Delay(5000);
 
             GameOver();
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Data.Cards;
 using DG.Tweening;
 using Draggable;
+using MatteoBenaissaLibrary.AudioManager;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -46,6 +47,16 @@ namespace Cards
             base.Initialize(position);
 
             SpawnTween();
+
+            SoundEnum soundToPlay = Data.Type switch
+            {
+                CardType.Human => SoundEnum.Human,
+                CardType.Resource => SoundEnum.Resource,
+                CardType.Usable => SoundEnum.Usable,
+                CardType.Money => SoundEnum.Coin,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            SoundManager.Instance.PlaySound(soundToPlay);
         }
 
         private async void SpawnTween()
@@ -400,6 +411,8 @@ namespace Cards
                 return;
             }
 
+            SoundManager.Instance.PlaySound(SoundEnum.ActionStart);
+
             _childrenOnActivation = GetChildren();
             
             _currentDoingHuman = cardHuman;
@@ -432,6 +445,8 @@ namespace Cards
             
             if (_currentTimeToUse <= 0)
             {
+                SoundManager.Instance.PlaySound(SoundEnum.ActionStart);
+                
                 _isUsing = false;
                 ActivateUse(false, null, null);
                 
