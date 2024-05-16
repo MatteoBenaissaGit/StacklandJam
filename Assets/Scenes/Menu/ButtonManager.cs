@@ -1,5 +1,6 @@
 using DG.Tweening;
 using MatteoBenaissaLibrary.Attributes.ReadOnly;
+using MatteoBenaissaLibrary.AudioManager;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -43,6 +44,8 @@ namespace MatteoBenaissaLibrary.Menu
         {
             transform.DOKill();
             if (CanAnimate == false) return;
+            
+            SoundManager.Instance.PlaySound(SoundEnum.Resource);
             
             switch (_menuType)
             {

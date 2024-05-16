@@ -102,8 +102,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     public async void ClientServed(Client client, int moneyGained)
     {
         CurrentClients.Remove(client);
-        client.DestroyClient();
-        
+
         _currentQuota++;
         UI.UpdateQuota(_currentQuota, _quotaPerDay);
 
@@ -114,6 +113,8 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
             offset = client.transform.right * (i + (moneyGained > 1 ? -1 : 0));
             Board.CreateCard(Money, client.transform.position, client.transform.position - client.transform.up * 2 + offset);
         }
+        
+        client.DestroyClient();
 
         int numberOfElements = Board.Cards.Count(x => x.Data.Type == CardType.Resource);
         int numberOfMoney = Board.Cards.Count(x => x.Data.Type == CardType.Money);
