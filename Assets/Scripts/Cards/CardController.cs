@@ -264,7 +264,8 @@ namespace Cards
                 || wantToBeChildCard.Data.Type == CardType.Usable
                 || (Data.IsFurnace && wantToBeChildCard.Data.CanBePutInFurnace == false)
                 || (Data.Type == CardType.Money && wantToBeChildCard.Data.Type != CardType.Money)
-                || Parent == wantToBeChildCard)
+                || Parent == wantToBeChildCard
+                || (wantToBeChildCard.Data.Type == CardType.Money && Data.Type != CardType.Money))
             {
                 return false;
             }
