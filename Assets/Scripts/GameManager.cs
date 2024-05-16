@@ -28,6 +28,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     
     private int _currentDay = 0;
     private float _currentTime;
+    private bool _doDayTime = true;
     private bool _doSpawnClient = true;
 
     private float _currentClientsSpawnTime;
@@ -44,12 +45,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
 
     private void Update()
     {
-        _currentTime -= Time.deltaTime;
-        UI.UpdateFillDay(_currentTime / _timePerDay);
-        if (_currentTime <= 0)
-        {
-            SetNewDay();
-        }
+        ManageDayTime();
 
         float quotaFill = (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].CurrentTime) /
                           (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].TotalTime);
@@ -58,12 +54,26 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         ManageClientSpawn();
     }
 
+    private void ManageDayTime()
+    {
+        if (_doDayTime == false)
+        {
+            return;
+        }
+
+        _currentTime -= Time.deltaTime;
+        UI.UpdateFillDay(_currentTime / _timePerDay);
+        if (_currentTime <= 0)
+        {
+            SetNewDay();
+        }
+    }
+
     private void SetNewDay()
     {
         if (_currentQuota < _quotaPerDay)
         {
-            //TODO: Game Over
-            SceneManager.LoadScene(0);
+            GameOver();
             return;
         }
         
@@ -118,5 +128,15 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
             _currentClientsSpawnTime = UnityEngine.Random.Range(_timeBetweenClients.x, _timeBetweenClients.y);
             AddClient();
         }
+    }
+
+    private void GameOver()
+    {
+        UI.ShowGameOver();
+        
+        _doSpawnClient = false;
+        _doDayTime = false;
+        Board.Cards.ForEach(x => x.IsInitialized = false);
+        CurrentClients.ForEach(x => x.DestroyClient());
     }
 }

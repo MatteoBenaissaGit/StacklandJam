@@ -113,6 +113,11 @@ namespace Cards
 
         public void DestroyClient()
         {
+            if (GameManager.Instance.BoardElementInput.CurrentHeldElement == this)
+            {
+                GameManager.Instance.BoardElementInput.CurrentHeldElement = null;
+            }
+            
             IsInitialized = false;
             
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InCirc).OnComplete(() =>

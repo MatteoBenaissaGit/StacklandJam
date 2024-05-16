@@ -6,7 +6,7 @@ namespace Cards
 {
     public class BoardElementInputManager : MonoBehaviour
     {
-        public BoardDraggable CurrentHeldElement { get; private set; }
+        public BoardDraggable CurrentHeldElement { get; set; }
 
         [SerializeField] private Camera _camera;
 
