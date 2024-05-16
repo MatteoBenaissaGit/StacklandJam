@@ -46,7 +46,6 @@ namespace Draggable
             }
         }
 
-
         protected virtual void Update()
         {
             //TODO rotation ?

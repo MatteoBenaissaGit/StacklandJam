@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98373e6b8628ab4983e16d37b00aea9, type: 3}
   m_Name: PizzaFroide
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Pizza chaude
+  <Name>k__BackingField: Pizza froide
   <Type>k__BackingField: 1
   <Sprite>k__BackingField: {fileID: 21300000, guid: 1a51fb502befd884f8c6fb6d02812a1a, type: 3}
-  <Description>k__BackingField: Pizza chaude
+  <Description>k__BackingField: Une pizza... mais froide.
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
   <IsStackable>k__BackingField: 0
@@ -25,4 +25,5 @@ MonoBehaviour:
   <CanBePutOnWorkSpace>k__BackingField: 0
   <IsPizza>k__BackingField: 1
   <IsCold>k__BackingField: 1
+  <IsFull>k__BackingField: 1
   <TimeToUse>k__BackingField: 0

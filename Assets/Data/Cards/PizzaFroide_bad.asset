@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98373e6b8628ab4983e16d37b00aea9, type: 3}
+  m_Name: PizzaFroide_bad
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: Pizza froide
+  <Type>k__BackingField: 1
+  <Sprite>k__BackingField: {fileID: 21300000, guid: f95b06daf6aeb634e8d5070045571a58, type: 3}
+  <Description>k__BackingField: Une pizza... pas finie... et froide.
+  <Value>k__BackingField: 1
+  <IsNotSellable>k__BackingField: 0
+  <IsStackable>k__BackingField: 0
+  <IsFurnace>k__BackingField: 0
+  <CanBePutInFurnace>k__BackingField: 1
+  <IsWorkSpace>k__BackingField: 0
+  <CanBePutOnWorkSpace>k__BackingField: 0
+  <IsPizza>k__BackingField: 1
+  <IsCold>k__BackingField: 1
+  <IsFull>k__BackingField: 0
+  <TimeToUse>k__BackingField: 0

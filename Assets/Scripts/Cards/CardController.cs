@@ -271,7 +271,7 @@ namespace Cards
         {
             base.SetHovered(isHovered);
             
-            GameManager.Instance.UI.SetDescription(isHovered, Data.Description);
+            GameManager.Instance.UI.SetDescription(isHovered, Data);
         }
 
         public bool CanHaveChild(CardController wantToBeChildCard)
@@ -369,19 +369,18 @@ namespace Cards
             {
                 if (elements[0].Data.IsPizza && elements[0].Data.IsCold)
                 {
-                    ActivateUse(true, GameManager.Instance.PizzaHot, cardHuman);
+                    ActivateUse(true, elements[0].Data.IsFull ? GameManager.Instance.PizzaHot : GameManager.Instance.PizzaHotNotFull, cardHuman);
                 }
             }
             else if (Data.IsWorkSpace)
             {
-                if (elements.Length >= 2)
+                if (elements.Length >= 3)
                 {
                     ActivateUse(true, GameManager.Instance.PizzaCold, cardHuman);
                 }
                 else if (elements.Length >= 1)
                 {
-                    //TODO pizza not done
-                    ActivateUse(true, GameManager.Instance.PizzaCold, cardHuman);
+                    ActivateUse(true, GameManager.Instance.PizzaColdNotFull, cardHuman);
                 }
             }
         }
