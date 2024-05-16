@@ -388,6 +388,7 @@ namespace Cards
         private CardData _currentDoingData;
         private List<CardController> _currentDoingElements;
         private CardController _currentDoingHuman;
+        private List<CardController> _childrenOnActivation = new List<CardController>();
 
         private void ActivateUse(bool doActivate, CardData cardData, CardController cardHuman)
         {
@@ -399,6 +400,8 @@ namespace Cards
                 return;
             }
 
+            _childrenOnActivation = GetChildren();
+            
             _currentDoingHuman = cardHuman;
             
             _currentTimeToUse = Data.TimeToUse;
@@ -412,6 +415,16 @@ namespace Cards
             if (_isUsing == false || IsHeld)
             {
                 return;
+            }
+
+            List<CardController> currentChildren = GetChildren();
+            foreach (CardController child in _childrenOnActivation)
+            {
+                if (currentChildren.Contains(child) == false)
+                {
+                    CancelUsing();
+                    return;
+                }
             }
 
             _currentTimeToUse -= Time.deltaTime;
@@ -428,7 +441,27 @@ namespace Cards
                 GameManager.Instance.Board.CreateCard(_currentDoingData, transform.position, transform.position - transform.up * 1f + transform.right * 2f);
             }
         }
-        
+
+        public void CancelUsing()
+        {
+            _isUsing = false;
+            ActivateUse(false, null, null);
+        }
+
+        public List<CardController> GetChildren()
+        {
+            List<CardController> children = new List<CardController>();
+
+            CardController currentChild = Child;
+            while (currentChild != null)
+            {
+                children.Add(currentChild);
+                currentChild = currentChild.Child;
+            }
+
+            return children;
+        }
+
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
