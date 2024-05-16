@@ -599,9 +599,10 @@ MonoBehaviour:
   <PizzaCold>k__BackingField: {fileID: 11400000, guid: 4157797b6b2f9e34fb8d65ea4f8c4ada, type: 2}
   <PizzaHotNotFull>k__BackingField: {fileID: 11400000, guid: f5ded6a609f58f540918589fcdbad718, type: 2}
   <PizzaHot>k__BackingField: {fileID: 11400000, guid: da842c4221ce13c41b152cfd28b41306, type: 2}
-  _timePerDay: 60
+  <Money>k__BackingField: {fileID: 11400000, guid: 489ddac34b4695e4ab84444097a5d148, type: 2}
+  _timePerDay: 70
   _quotaPerDay: 3
-  _timeBetweenClients: {x: 10, y: 20}
+  _timeBetweenClients: {x: 15, y: 25}
   _clientPrefab: {fileID: 5432283866448149209, guid: b1a63a0db78dd5f47b0b8042360ae3da, type: 3}
   _clientSpawnPoint: {fileID: 1188337255}
 --- !u!4 &227105288
@@ -2082,7 +2083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188337254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.5, y: 1.61, z: 0}
+  m_LocalPosition: {x: -12.5, y: 1.61, z: 8.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

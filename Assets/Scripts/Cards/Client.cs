@@ -97,7 +97,9 @@ namespace Cards
         public void GetPizza(CardController pizza)
         {
             GameManager.Instance.Board.RemoveCard(pizza);
-            GameManager.Instance.ClientServed(this);
+
+            int money = pizza.Data.Value;
+            GameManager.Instance.ClientServed(this, money);
         }
 
         public void HoldCard(CardController card)

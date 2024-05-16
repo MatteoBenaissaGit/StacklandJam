@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cards;
 using Data.Cards;
-using MatteoBenaissaLibrary.SingletonClassBase;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<GameManager>
 {
     [field:SerializeField] public BoardManager Board { get; private set; }
     [field:SerializeField] public UIManager UI { get; private set; }
@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     [field:SerializeField] public CardData PizzaCold { get; private set; }
     [field:SerializeField] public CardData PizzaHotNotFull { get; private set; }
     [field:SerializeField] public CardData PizzaHot { get; private set; }
+    [field:SerializeField] public CardData Money { get; private set; }
 
     public List<Client> CurrentClients { get; private set; } = new List<Client>();
     
@@ -27,6 +28,7 @@ public class GameManager : Singleton<GameManager>
     
     private int _currentDay = 0;
     private float _currentTime;
+    private bool _doSpawnClient = true;
 
     private float _currentClientsSpawnTime;
     private int _currentQuota;
@@ -34,6 +36,9 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         _currentQuota = _quotaPerDay;
+        
+        _currentClientsSpawnTime = 5f;
+        
         SetNewDay();
     }
 
@@ -49,6 +54,8 @@ public class GameManager : Singleton<GameManager>
         float quotaFill = (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].CurrentTime) /
                           (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].TotalTime);
         UI.UpdateFillQuota(quotaFill);
+        
+        ManageClientSpawn();
     }
 
     private void SetNewDay()
@@ -61,37 +68,55 @@ public class GameManager : Singleton<GameManager>
         }
         
         _currentQuota = 0;
-        _currentClientsSpawnTime = UnityEngine.Random.Range(_timeBetweenClients.x, _timeBetweenClients.y);
         UI.UpdateQuota(_currentQuota, _quotaPerDay);
         
         _currentDay++;
         _currentTime = _timePerDay;
         UI.SetNewDay(_currentDay);
-        
-        //TODO random time
-        AddClient();
     }
 
     private void AddClient()
     {
         Client client = Instantiate(_clientPrefab);
-        client.Initialize(_clientSpawnPoint.position);
+        client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,20));
         
         CurrentClients.Add(client);
     }
 
-    public void ClientServed(Client client)
+    public void ClientServed(Client client, int moneyGained)
     {
         CurrentClients.Remove(client);
         client.DestroyClient();
         
         _currentQuota++;
         UI.UpdateQuota(_currentQuota, _quotaPerDay);
+
+        Vector3 offset = client.transform.right * 0;
+        for (int i = 0; i < moneyGained; i++)
+        {
+            offset = client.transform.right * (i + (moneyGained > 1 ? -1 : 0));
+            Board.CreateCard(Money, client.transform.position, client.transform.position - client.transform.up * 2 + offset);
+        }
     }
 
     public void KillClient(Client client)
     {
         CurrentClients.Remove(client);
         client.DestroyClient();
+    }
+
+    private void ManageClientSpawn()
+    {
+        if (_doSpawnClient == false)
+        {
+            return;
+        }
+        
+        _currentClientsSpawnTime -= Time.deltaTime;
+        if (_currentClientsSpawnTime <= 0)
+        {
+            _currentClientsSpawnTime = UnityEngine.Random.Range(_timeBetweenClients.x, _timeBetweenClients.y);
+            AddClient();
+        }
     }
 }
