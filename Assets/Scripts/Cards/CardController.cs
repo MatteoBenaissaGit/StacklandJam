@@ -18,8 +18,6 @@ namespace Cards
         public CardController Child { get; private set; }
 
         [SerializeField] private SpriteRenderer _cardSpriteRenderer;
-        [SerializeField] private Transform _cardValueTransform;
-        [SerializeField] private TextMeshPro _cardValue;
         [SerializeField] private Transform _cardFront;
         [SerializeField] private Transform _cardBack;
 
@@ -31,8 +29,6 @@ namespace Cards
             Data = data;
 
             _cardSpriteRenderer.sprite = Data.Sprite;
-            _cardValue.text = Data.Value.ToString();
-            _cardValueTransform.gameObject.SetActive(Data.IsNotSellable);
             
             base.Initialize(position);
 
@@ -107,6 +103,7 @@ namespace Cards
                 if (_collisionHits[i].collider.TryGetComponent(out CardController card) && card != this && card.IsHeld == false && IsCardAChild(Child) == false)
                 {
                     Vector3 direction = (transform.position - card.transform.position).normalized;
+                    direction.y = 0;
                     _collisionSpeed = direction * (4f * Time.deltaTime);
                     isColliding = true;
                     SetSpritesSortingOrder(transform.position.y < card.transform.position.y ? 1 : -1);
@@ -199,7 +196,7 @@ namespace Cards
             SetParent(isHeld ? null : Parent);
             SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
             
-            SetSpritesSortingOrder(isHeld ? 10 : 0);
+            SetSpritesSortingOrder(isHeld ? 100 : 0);
             
             Child?.SetHeldAsChild(isHeld);
 
@@ -222,6 +219,10 @@ namespace Cards
 
         public override void CardUnderOnDrop(CardController cardUnder)
         {
+            if (cardUnder.CanHaveChild(this) == false)
+            {
+                return;
+            }
             SetParent(cardUnder);
         }
 
@@ -229,7 +230,7 @@ namespace Cards
         {
             IsHeld = isHeld;
             
-            SetSpritesSortingOrder(isHeld ? 10 : 0);
+            SetSpritesSortingOrder(isHeld ? 100 : 0);
 
             SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
             
@@ -243,6 +244,34 @@ namespace Cards
             GameManager.Instance.UI.SetDescription(isHovered, Data.Description);
         }
 
+        public bool CanHaveChild(CardController wantToBeChildCard)
+        {
+            //if i already have a child
+            if (Child != null)
+            {
+                return false;
+            }
+
+            //if a parent/child is the same card and its not stackable
+
+            CardController currentWantToBeChildChild = wantToBeChildCard;
+            while (currentWantToBeChildChild != null)
+            {
+                CardController currentParent = this;
+                while (currentParent != null)
+                {
+                    if (currentWantToBeChildChild.Data == currentParent.Data && currentParent.Data.IsStackable == false)
+                    {
+                        return false;
+                    }
+                    currentParent = currentParent.Parent;
+                }
+                currentWantToBeChildChild = currentWantToBeChildChild.Child;
+            }
+
+            return true;
+        }
+        
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()

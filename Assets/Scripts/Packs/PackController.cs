@@ -94,7 +94,7 @@ namespace Packs
             transform.DOComplete();
 
             SetShadow(isHeld ? ShadowHeldDistance : ShadowBaseDistance);
-            SetSpritesSortingOrder(isHeld ? 10 : 0);
+            SetSpritesSortingOrder(isHeld ? 100 : 0);
 
             if (isHeld == false)
             {

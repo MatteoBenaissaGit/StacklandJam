@@ -42,6 +42,11 @@ namespace Cards
         private BoardDraggable _currentElementHovered;
         private void CheckForHoverElement()
         {
+            if (CurrentHeldElement != null)
+            {
+                return;
+            }
+            
             BoardDraggable hoveredElement = null;
             
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
