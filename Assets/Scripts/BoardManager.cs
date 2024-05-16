@@ -29,4 +29,21 @@ public class BoardManager : MonoBehaviour
         card.transform.SetParent(null);
         Destroy(card.gameObject);
     }
+
+    public void HighlightsPossiblesChildrenOf(CardController cardToPlace)
+    {
+        foreach (CardController card in Cards)
+        {
+            if (card.CanHaveChild(cardToPlace) == false)
+            {
+                continue;
+            }
+            card.Highlight(true);
+        }
+    }
+    
+    public void UnhighlightAll()
+    {
+        Cards.ForEach(x => x.Highlight(false));
+    }
 }

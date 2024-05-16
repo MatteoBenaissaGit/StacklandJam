@@ -20,12 +20,17 @@ namespace Cards
         [SerializeField] private SpriteRenderer _cardSpriteRenderer;
         [SerializeField] private Transform _cardFront;
         [SerializeField] private Transform _cardBack;
+        [SerializeField] private SpriteRenderer _highlight;
 
         [Space(10)]
         [SerializeField] private float _parentingDistance = 1f;
 
         public void Initialize(CardData data, Vector3 position)
         {
+            Color highlightColor = _highlight.color;
+            highlightColor.a = 0;
+            _highlight.color = highlightColor;
+            
             Data = data;
 
             _cardSpriteRenderer.sprite = Data.Sprite;
@@ -214,6 +219,12 @@ namespace Cards
                     }
                 }
                 transform.DOMove(LastPlayZonePosition, 0.2f);
+
+                GameManager.Instance.Board.UnhighlightAll();
+            }
+            else
+            {
+                GameManager.Instance.Board.HighlightsPossiblesChildrenOf(this);
             }
         }
 
@@ -247,13 +258,16 @@ namespace Cards
         public bool CanHaveChild(CardController wantToBeChildCard)
         {
             //if i already have a child
-            if (Child != null)
+            if (Child != null 
+                || Data.Type == CardType.Human
+                || wantToBeChildCard == this 
+                || wantToBeChildCard.Data.Type == CardType.Usable
+                || Data.IsFurnace && wantToBeChildCard.Data.CanBePutInFurnace == false)
             {
                 return false;
             }
 
             //if a parent/child is the same card and its not stackable
-
             CardController currentWantToBeChildChild = wantToBeChildCard;
             while (currentWantToBeChildChild != null)
             {
@@ -264,12 +278,24 @@ namespace Cards
                     {
                         return false;
                     }
+
+                    if (currentParent.Data.IsWorkSpace && currentWantToBeChildChild.Data.CanBePutOnWorkSpace == false)
+                    {
+                        Debug.Log("cant workspace");
+                        return false;
+                    }
+                    
                     currentParent = currentParent.Parent;
                 }
                 currentWantToBeChildChild = currentWantToBeChildChild.Child;
             }
 
             return true;
+        }
+
+        public void Highlight(bool doHighlight)
+        {
+            _highlight.DOFade(doHighlight ? 1 : 0 , 0.2f);
         }
         
 #if UNITY_EDITOR

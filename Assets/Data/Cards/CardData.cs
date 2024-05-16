@@ -21,5 +21,9 @@ namespace Data.Cards
         [field:SerializeField] public int Value { get; private set; }
         [field:SerializeField] public bool IsNotSellable { get; private set; }
         [field:SerializeField] public bool IsStackable { get; private set; }
+        [field:SerializeField] public bool IsFurnace { get; private set; }
+        [field:SerializeField] public bool CanBePutInFurnace { get; private set; }
+        [field:SerializeField] public bool IsWorkSpace { get; private set; }
+        [field:SerializeField] public bool CanBePutOnWorkSpace { get; private set; }
     }
 }

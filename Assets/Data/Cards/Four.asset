@@ -18,4 +18,8 @@ MonoBehaviour:
   <Description>k__BackingField: Utilise le four pour cuire une pizza.
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 1
-  <IsStackable>k__BackingField: 1
+  <IsStackable>k__BackingField: 0
+  <IsFurnace>k__BackingField: 1
+  <CanBePutInFurnace>k__BackingField: 0
+  <IsWorkSpace>k__BackingField: 0
+  <CanBePutOnWorkSpace>k__BackingField: 0
