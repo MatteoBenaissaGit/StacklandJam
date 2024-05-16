@@ -9,4 +9,5 @@ public enum SoundEnum
 	ActionStart,
 	NewClient,
 	Pack,
+	ClientLost,
 }

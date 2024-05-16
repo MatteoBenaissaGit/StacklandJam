@@ -110,6 +110,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         Vector3 offset = client.transform.right * 0;
         for (int i = 0; i < moneyGained; i++)
         {
+            await Task.Delay(250);
             offset = client.transform.right * (i + (moneyGained > 1 ? -1 : 0));
             Board.CreateCard(Money, client.transform.position, client.transform.position - client.transform.up * 2 + offset);
         }
@@ -129,6 +130,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     {
         CurrentClients.Remove(client);
         client.DestroyClient(true);
+        SoundManager.Instance.PlaySound(SoundEnum.ClientLost, 0.01f);
     }
 
     private void ManageClientSpawn()

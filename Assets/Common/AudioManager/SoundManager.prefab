@@ -73,6 +73,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 97f52e4d9a98e0b47b3e4c831f5f14ce, type: 3}
   - {fileID: 8300000, guid: 62bf7845f2200ab4988dcf98d599e48e, type: 3}
   - {fileID: 8300000, guid: 6d15ce089d8ae7d40b6ad75334a8be95, type: 3}
+  - {fileID: 8300000, guid: a2e9665a703d6de418a7403fa79f24dc, type: 3}
   _soundEnumPath: Assets/Common/AudioManager/
 --- !u!82 &1514686985645170886
 AudioSource:
