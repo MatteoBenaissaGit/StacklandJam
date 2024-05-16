@@ -341,7 +341,7 @@ MonoBehaviour:
   <ShadowBaseDistance>k__BackingField: 0.1
   <ShadowHoverDistance>k__BackingField: 0.25
   <ShadowHeldDistance>k__BackingField: 0.5
-  <TotalTime>k__BackingField: 30
+  <TotalTime>k__BackingField: 45
   _highlight: {fileID: 371247121587485103}
   _fillGauge: {fileID: 3939569183242240846}
 --- !u!1 &5516081635322251541

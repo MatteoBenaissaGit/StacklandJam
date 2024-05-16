@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7693abad1bad4faab34b284f20986720, type: 3}
-  m_Name: Pack_3EL_1US_1HU
+  m_Name: Pack_3EL
   m_EditorClassIdentifier: 
-  <NumberOfCardsUsable>k__BackingField: 1
+  <NumberOfCardsUsable>k__BackingField: 0
   <NumberOfCardsElements>k__BackingField: 3
-  <NumberOfCardsHuman>k__BackingField: 1
+  <NumberOfCardsHuman>k__BackingField: 0
+  <NumberOfCardsMoney>k__BackingField: 0
   <UsableCards>k__BackingField:
   - {fileID: 11400000, guid: fd53249a7a254534da9453016dd677f7, type: 2}
   - {fileID: 11400000, guid: 6a7492941c6f84449acd3a1b20adcb98, type: 2}
@@ -24,3 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6c80954f923da14a94af5372e2af067, type: 2}
   <HumanCards>k__BackingField:
   - {fileID: 11400000, guid: d0f2bf4481e806049ab7e6797d2f6160, type: 2}
+  <MoneyCards>k__BackingField: []
+  <CustomAddedCards>k__BackingField: []
