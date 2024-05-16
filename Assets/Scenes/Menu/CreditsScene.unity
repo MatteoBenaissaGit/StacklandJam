@@ -231,6 +231,22 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 2738694719185141547, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738694719185141547, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7089006175261524859}
+    - target: {fileID: 2738694719185141547, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoBackToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2738694719185141547, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MatteoBenaissaLibrary.Menu.ButtonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6600257484207528482, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -320,3 +336,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+--- !u!114 &7089006175261524859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2893787986352687293, guid: b1036cddc6b6a7c438740fba52e676f3, type: 3}
+  m_PrefabInstance: {fileID: 7089006175261524858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73004bcff80b91d4c8c6e0d23b51beeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

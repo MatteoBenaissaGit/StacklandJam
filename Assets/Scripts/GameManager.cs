@@ -32,6 +32,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     private bool _doSpawnClient = true;
 
     private float _currentClientsSpawnTime;
+    private float _baseClientsSpawnTime;
     private int _currentQuota;
 
     private void Start()
@@ -39,6 +40,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         _currentQuota = _quotaPerDay;
         
         _currentClientsSpawnTime = 5f;
+        _baseClientsSpawnTime = 5f;
         
         SetNewDay();
     }
@@ -46,11 +48,6 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     private void Update()
     {
         ManageDayTime();
-
-        float quotaFill = (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].CurrentTime) /
-                          (CurrentClients.Count <= 0 ? 0 : CurrentClients[0].TotalTime);
-        UI.UpdateFillQuota(quotaFill);
-        
         ManageClientSpawn();
     }
 
@@ -88,7 +85,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     private void AddClient()
     {
         Client client = Instantiate(_clientPrefab);
-        client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,20));
+        client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,18));
         
         CurrentClients.Add(client);
     }
@@ -123,9 +120,12 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         }
         
         _currentClientsSpawnTime -= Time.deltaTime;
+        UI.UpdateFillQuota(_currentClientsSpawnTime/_baseClientsSpawnTime);
+        
         if (_currentClientsSpawnTime <= 0)
         {
             _currentClientsSpawnTime = UnityEngine.Random.Range(_timeBetweenClients.x, _timeBetweenClients.y);
+            _baseClientsSpawnTime = _currentClientsSpawnTime;
             AddClient();
         }
     }

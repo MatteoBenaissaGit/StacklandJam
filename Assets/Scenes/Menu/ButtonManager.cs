@@ -3,6 +3,7 @@ using MatteoBenaissaLibrary.Attributes.ReadOnly;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace MatteoBenaissaLibrary.Menu
 {
@@ -73,8 +74,11 @@ namespace MatteoBenaissaLibrary.Menu
             
             OnButtonExitHover.Invoke();
         }
-        
-        
+
+        public void GoBackToMenu()
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }
 
