@@ -51,7 +51,7 @@ namespace Draggable
             //TODO rotation ?
         }
 
-        public void Initialize(Vector3 position)
+        public virtual void Initialize(Vector3 position)
         {
             LastPlayZonePosition = position;
             transform.position = position;

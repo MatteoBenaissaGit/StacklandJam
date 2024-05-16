@@ -105,7 +105,7 @@ namespace Cards
                 {
                     for (int i = 0; i < hits; i++)
                     {
-                        if (_cardRaycasts[i].collider.TryGetComponent(out CardHolder holder))
+                        if (_cardRaycasts[i].collider.TryGetComponent(out ICardHolder holder))
                         {
                             holder.HoldCard(heldCard);
                             break;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Pizza froide
   <Type>k__BackingField: 1
-  <Sprite>k__BackingField: {fileID: 21300000, guid: f95b06daf6aeb634e8d5070045571a58, type: 3}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: f350461f1dd76724d8a293448afb00af, type: 3}
   <Description>k__BackingField: Une pizza... pas finie... et froide.
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 0

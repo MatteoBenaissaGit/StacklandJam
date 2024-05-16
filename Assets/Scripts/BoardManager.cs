@@ -49,11 +49,17 @@ public class BoardManager : MonoBehaviour
         {
             _boosterBuy.Highlight(true);
         }
+
+        if (cardToPlace.Data.IsPizza)
+        {
+            GameManager.Instance.CurrentClients.ForEach(x => x.Highlight(true));
+        }
     }
     
     public void UnhighlightAll()
     {
         _boosterBuy.Highlight(false);
         Cards.ForEach(x => x.Highlight(false));
+        GameManager.Instance.CurrentClients.ForEach(x => x.Highlight(false));
     }
 }

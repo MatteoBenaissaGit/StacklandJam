@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Cards
 {
-    public class BoosterBuy : CardHolder
+    public class BoosterBuy : MonoBehaviour, ICardHolder
     {
         [SerializeField] private int _boosterPrice;
         [SerializeField] private TextMeshPro _priceText;
@@ -29,7 +29,7 @@ namespace Cards
             _priceText.text = _currentNeededPrice.ToString();
         }
 
-        public override void HoldCard(CardController card)
+        public void HoldCard(CardController card)
         {
             if (card.Data.Type != CardType.Money)
             {
