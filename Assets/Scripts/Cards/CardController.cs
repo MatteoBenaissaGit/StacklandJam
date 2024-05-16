@@ -262,7 +262,9 @@ namespace Cards
                 || Data.Type == CardType.Human
                 || wantToBeChildCard == this 
                 || wantToBeChildCard.Data.Type == CardType.Usable
-                || Data.IsFurnace && wantToBeChildCard.Data.CanBePutInFurnace == false)
+                || (Data.IsFurnace && wantToBeChildCard.Data.CanBePutInFurnace == false)
+                || (Data.Type == CardType.Money && wantToBeChildCard.Data.Type != CardType.Money)
+                || Parent == wantToBeChildCard)
             {
                 return false;
             }
@@ -281,10 +283,14 @@ namespace Cards
 
                     if (currentParent.Data.IsWorkSpace && currentWantToBeChildChild.Data.CanBePutOnWorkSpace == false)
                     {
-                        Debug.Log("cant workspace");
                         return false;
                     }
-                    
+
+                    if (currentParent == wantToBeChildCard)
+                    {
+                        return false;
+                    }
+
                     currentParent = currentParent.Parent;
                 }
                 currentWantToBeChildChild = currentWantToBeChildChild.Child;

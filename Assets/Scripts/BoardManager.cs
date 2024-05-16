@@ -11,7 +11,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private CardController _cardPrefab;
     [Space]
     [SerializeField] private PlayZoneController _playZone;
-
+    [SerializeField] private BoosterBuy _boosterBuy;
+    
     public void CreateCard(CardData data, Vector3 startPosition, Vector3 endPosition)
     {
         CardController card = Instantiate(_cardPrefab, transform);
@@ -27,7 +28,9 @@ public class BoardManager : MonoBehaviour
     {
         Cards.Remove(card);
         card.transform.SetParent(null);
-        Destroy(card.gameObject);
+        card.IsInitialized = false;
+        card.transform.DOKill();
+        card.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => Destroy(card.gameObject));
     }
 
     public void HighlightsPossiblesChildrenOf(CardController cardToPlace)
@@ -40,10 +43,16 @@ public class BoardManager : MonoBehaviour
             }
             card.Highlight(true);
         }
+
+        if (cardToPlace.Data.Type == CardType.Money)
+        {
+            _boosterBuy.Highlight(true);
+        }
     }
     
     public void UnhighlightAll()
     {
+        _boosterBuy.Highlight(false);
         Cards.ForEach(x => x.Highlight(false));
     }
 }

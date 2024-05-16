@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98373e6b8628ab4983e16d37b00aea9, type: 3}
   m_Name: Piece
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: Tomate
+  <Name>k__BackingField: Money
   <Type>k__BackingField: 3
   <Sprite>k__BackingField: {fileID: 21300000, guid: 69adfedf9695b464881e68e418546abf, type: 3}
-  <Description>k__BackingField: The tomate.
+  <Description>k__BackingField: Use it to buy booster
   <Value>k__BackingField: 1
   <IsNotSellable>k__BackingField: 0
   <IsStackable>k__BackingField: 1
+  <IsFurnace>k__BackingField: 0
+  <CanBePutInFurnace>k__BackingField: 0
+  <IsWorkSpace>k__BackingField: 0
+  <CanBePutOnWorkSpace>k__BackingField: 0

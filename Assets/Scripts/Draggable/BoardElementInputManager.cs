@@ -105,6 +105,12 @@ namespace Cards
                 {
                     for (int i = 0; i < hits; i++)
                     {
+                        if (_cardRaycasts[i].collider.TryGetComponent(out CardHolder holder))
+                        {
+                            holder.HoldCard(heldCard);
+                            break;
+                        }
+                        
                         if (_cardRaycasts[i].collider.TryGetComponent(out CardController card) && card != CurrentHeldElement && card.Child == null)
                         {
                             heldCard.CardUnderOnDrop(card);
