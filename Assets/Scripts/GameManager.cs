@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<GameManager>
 {
     [field:SerializeField] public BoardManager Board { get; private set; }
+    [field:SerializeField] public CameraController CameraController { get; private set; }
     [field:SerializeField] public UIManager UI { get; private set; }
     [field:SerializeField] public BoardElementInputManager BoardElementInput { get; private set; }
     [field:SerializeField] public CardData PizzaColdNotFull { get; private set; }
@@ -72,6 +73,10 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
         {
             GameOver();
             return;
+        }
+        else if (_currentDay > 0)
+        {
+            CameraController.Confettis.Play();
         }
         
         _currentQuota = 0;

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [field:SerializeField] public ParticleSystem Confettis { get; set; }
+    
     [SerializeField] private float _zoomSpeed;
     [SerializeField] private float _zoomMin;
     [SerializeField] private float _zoomMax;
