@@ -1748,7 +1748,7 @@ Transform:
   m_Children:
   - {fileID: 3242611112092138533}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3242611112049812521
 MonoBehaviour:
@@ -1772,8 +1772,8 @@ MonoBehaviour:
     PlayButton: {fileID: 1693248958}
     CreditsButton: {fileID: 700350191}
     QuitButton: {fileID: 436143336}
-  PlaySceneName: 
-  CreditSceneName: 
+  PlaySceneName: MainScene
+  CreditSceneName: CreditsScene
   _makeButtonAnimation: 1
   _launchSceneTimeInSeconds: 0
   _buttonAnimationTimeInSeconds: 1

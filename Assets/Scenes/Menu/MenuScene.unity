@@ -227,14 +227,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuManagerPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 3242611112049812521, guid: b10ae47af206b114cbbbfb56def21069, type: 3}
-      propertyPath: PlaySceneName
-      value: MainScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 3242611112049812521, guid: b10ae47af206b114cbbbfb56def21069, type: 3}
-      propertyPath: CreditSceneName
-      value: CreditsScene
-      objectReference: {fileID: 0}
     - target: {fileID: 3242611112049812522, guid: b10ae47af206b114cbbbfb56def21069, type: 3}
       propertyPath: m_RootOrder
       value: 1
