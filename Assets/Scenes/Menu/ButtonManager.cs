@@ -45,7 +45,7 @@ namespace MatteoBenaissaLibrary.Menu
             transform.DOKill();
             if (CanAnimate == false) return;
             
-            SoundManager.Instance.PlaySound(SoundEnum.Resource);
+            SoundManager.Instance?.PlaySound(SoundEnum.Resource);
             
             switch (_menuType)
             {

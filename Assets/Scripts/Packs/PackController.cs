@@ -6,6 +6,7 @@ using Data.Packs;
 using DG.Tweening;
 using Draggable;
 using MatteoBenaissaLibrary.AudioManager;
+using MatteoBenaissaLibrary.AudioManager;
 using UnityEngine;
 
 namespace Packs
@@ -24,7 +25,7 @@ namespace Packs
         
         private void Start()
         {
-            SoundManager.Instance.PlaySound(SoundEnum.Pack);
+            SoundManager.Instance?.PlaySound(SoundEnum.Pack);
             
             _packData = _packDatas[UnityEngine.Random.Range(0, _packDatas.Count)];
             

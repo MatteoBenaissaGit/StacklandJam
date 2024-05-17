@@ -91,7 +91,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
 
     private void AddClient()
     {
-        SoundManager.Instance.PlaySound(SoundEnum.NewClient);
+        SoundManager.Instance?.PlaySound(SoundEnum.NewClient);
         
         Client client = Instantiate(_clientPrefab);
         client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,18));
@@ -131,7 +131,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     {
         CurrentClients.Remove(client);
         client.DestroyClient(true);
-        SoundManager.Instance.PlaySound(SoundEnum.ClientLost, 0.01f);
+        SoundManager.Instance?.PlaySound(SoundEnum.ClientLost, 0.01f);
     }
 
     private void ManageClientSpawn()

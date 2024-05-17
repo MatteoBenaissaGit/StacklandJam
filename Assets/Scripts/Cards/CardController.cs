@@ -56,7 +56,7 @@ namespace Cards
                 CardType.Money => SoundEnum.Coin,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            SoundManager.Instance.PlaySound(soundToPlay);
+            SoundManager.Instance?.PlaySound(soundToPlay);
         }
 
         private async void SpawnTween()
@@ -411,7 +411,7 @@ namespace Cards
                 return;
             }
 
-            SoundManager.Instance.PlaySound(SoundEnum.ActionStart);
+            SoundManager.Instance?.PlaySound(SoundEnum.ActionStart);
 
             _childrenOnActivation = GetChildren();
             
@@ -445,7 +445,7 @@ namespace Cards
             
             if (_currentTimeToUse <= 0)
             {
-                SoundManager.Instance.PlaySound(SoundEnum.ActionStart);
+                SoundManager.Instance?.PlaySound(SoundEnum.ActionStart);
                 
                 _isUsing = false;
                 ActivateUse(false, null, null);

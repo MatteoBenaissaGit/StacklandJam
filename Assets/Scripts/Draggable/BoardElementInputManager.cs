@@ -24,7 +24,7 @@ namespace Cards
         {
             if (Input.GetMouseButtonUp(0) && CurrentHeldElement != null)
             {
-                SoundManager.Instance.PlaySound(SoundEnum.CardDrop, 0.05f);
+                SoundManager.Instance?.PlaySound(SoundEnum.CardDrop, 0.05f);
             }
             
             if (Input.GetMouseButtonDown(0) == false || CurrentHeldElement != null)
@@ -41,7 +41,7 @@ namespace Cards
                 {
                     CurrentHeldElement = draggable;
                     CurrentHeldElement?.GetHeld(true);
-                    SoundManager.Instance.PlaySound(SoundEnum.CardHeld);
+                    SoundManager.Instance?.PlaySound(SoundEnum.CardHeld);
                     break;
                 }
             }

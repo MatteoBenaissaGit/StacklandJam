@@ -38,7 +38,7 @@ public class BoardArtClickableElement : MonoBehaviour
 
     private void Action()
     {
-        SoundManager.Instance.PlaySound(SoundEnum.Human, 0.04f);
+        SoundManager.Instance?.PlaySound(SoundEnum.Human, 0.04f);
         
         transform.DOKill();
 
