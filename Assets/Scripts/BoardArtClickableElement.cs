@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using MatteoBenaissaLibrary.AudioManager;
 using UnityEngine;
 using Random = System.Random;
 
@@ -37,6 +38,8 @@ public class BoardArtClickableElement : MonoBehaviour
 
     private void Action()
     {
+        SoundManager.Instance?.PlaySound(SoundEnum.Human, 0.04f);
+        
         transform.DOKill();
 
         switch (_action)

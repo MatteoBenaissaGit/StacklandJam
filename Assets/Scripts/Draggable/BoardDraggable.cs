@@ -31,7 +31,7 @@ namespace Draggable
         
         private Vector3 _previousPosition;
         private Vector3 _baseLocalRotation;
-        
+
         private void Awake()
         {
             _baseLocalRotation = transform.localRotation.eulerAngles;

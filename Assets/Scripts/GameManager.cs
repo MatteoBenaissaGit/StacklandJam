@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cards;
 using Data.Cards;
+using MatteoBenaissaLibrary.AudioManager;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,6 +91,8 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
 
     private void AddClient()
     {
+        SoundManager.Instance?.PlaySound(SoundEnum.NewClient);
+        
         Client client = Instantiate(_clientPrefab);
         client.Initialize(_clientSpawnPoint.position - _clientSpawnPoint.forward * UnityEngine.Random.Range(0,18));
         
@@ -99,24 +102,26 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     public async void ClientServed(Client client, int moneyGained)
     {
         CurrentClients.Remove(client);
-        client.DestroyClient();
-        
+
         _currentQuota++;
         UI.UpdateQuota(_currentQuota, _quotaPerDay);
 
         Vector3 offset = client.transform.right * 0;
         for (int i = 0; i < moneyGained; i++)
         {
+            await Task.Delay(250);
             offset = client.transform.right * (i + (moneyGained > 1 ? -1 : 0));
             Board.CreateCard(Money, client.transform.position, client.transform.position - client.transform.up * 2 + offset);
         }
+        
+        client.DestroyClient();
 
         int numberOfElements = Board.Cards.Count(x => x.Data.Type == CardType.Resource);
         int numberOfMoney = Board.Cards.Count(x => x.Data.Type == CardType.Money);
         
         if (numberOfElements <= 0 && _currentQuota < _quotaPerDay && numberOfMoney < Board.BoosterBuyer.CurrentNeededPrice)
         {
-            await Task.Delay(2500);
+            await Task.Delay(5000);
 
             GameOver();
         }
@@ -126,6 +131,7 @@ public class GameManager : MatteoBenaissaLibrary.SingletonClassBase.Singleton<Ga
     {
         CurrentClients.Remove(client);
         client.DestroyClient(true);
+        SoundManager.Instance?.PlaySound(SoundEnum.ClientLost, 0.01f);
     }
 
     private void ManageClientSpawn()

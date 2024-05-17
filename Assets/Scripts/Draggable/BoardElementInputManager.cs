@@ -1,5 +1,6 @@
 ﻿using System;
 using Draggable;
+using MatteoBenaissaLibrary.AudioManager;
 using UnityEngine;
 
 namespace Cards
@@ -21,6 +22,11 @@ namespace Cards
         private RaycastHit[] _cardRaycasts = new RaycastHit[16];
         private void CheckForElementOnClick()
         {
+            if (Input.GetMouseButtonUp(0) && CurrentHeldElement != null)
+            {
+                SoundManager.Instance?.PlaySound(SoundEnum.CardDrop, 0.05f);
+            }
+            
             if (Input.GetMouseButtonDown(0) == false || CurrentHeldElement != null)
             {
                 return;
@@ -35,6 +41,7 @@ namespace Cards
                 {
                     CurrentHeldElement = draggable;
                     CurrentHeldElement?.GetHeld(true);
+                    SoundManager.Instance?.PlaySound(SoundEnum.CardHeld);
                     break;
                 }
             }
